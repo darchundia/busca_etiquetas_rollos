@@ -1,0 +1,3558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscador de registros</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    input { width: 300px; padding: 8px; font-size: 16px; }
+    table { margin-top: 20px; border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h2>🔍 Buscador de registros</h2>
+  <input type="text" id="searchBox" placeholder="Escribe algo..." oninput="buscar()">
+  <table id="resultTable"></table>
+
+  <script>
+    const datos = [
+  {
+    "DETER": 1,
+    "ID KEY": "LIV 1",
+    "NOMBRE": "1 LIV CENTRO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SANDRA FUENTES",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 4,
+    "ID KEY": "LIV 4",
+    "NOMBRE": "4 LIV SATELITE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L MARIANA MARTINEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 10,
+    "ID KEY": "LIV 10",
+    "NOMBRE": "10 LIV FF JALAPA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ELVIA LAGUNES",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 11,
+    "ID KEY": "LIV 11",
+    "NOMBRE": "11 LIV FF CORDOBA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NERINA ORTIZ",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 12,
+    "ID KEY": "CK 12",
+    "NOMBRE": "12 CK RIO ELBA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 14,
+    "ID KEY": "LIV 14",
+    "NOMBRE": "14 LIV FF TUXTLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 15,
+    "ID KEY": "LIV 15",
+    "NOMBRE": "15 LIV FF PUEBLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 16,
+    "ID KEY": "CK 16",
+    "NOMBRE": "16 EXTRA CIENFUEGOS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 17,
+    "ID KEY": "LIV 17",
+    "NOMBRE": "17 LIV FF POZA RICA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB CARLOS RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 19,
+    "ID KEY": "LIV 19",
+    "NOMBRE": "19 LIV FF TAPACHULA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS AGUILAR",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 27,
+    "ID KEY": "LIV 27",
+    "NOMBRE": "27 LIV FF ACAPULCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB AARON TERAN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 28,
+    "ID KEY": "LIV 28",
+    "NOMBRE": "28 LIV FF VERACRUZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RAMON SANCHEZ",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 29,
+    "ID KEY": "LIV 29",
+    "NOMBRE": "29 LIV PERINORTE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JOSE PEREZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 30,
+    "ID KEY": "CK 30",
+    "NOMBRE": "30 EXTRA AMPLIACION",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO MOLINA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 31,
+    "ID KEY": "LIV 31",
+    "NOMBRE": "31 LIV MONTERREY",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB DIEGO AGUILAR",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 34,
+    "ID KEY": "LIV 34",
+    "NOMBRE": "34 LIV FF CHIHUAHUA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 36,
+    "ID KEY": "LIV 36",
+    "NOMBRE": "36 LIV FF SAN LUIS POTOSI",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALEJANDRO GALVAN",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 37,
+    "ID KEY": "LIV 37",
+    "NOMBRE": "37 LIV FF OAXACA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 38,
+    "ID KEY": "MIB 38",
+    "NOMBRE": "38 MI BODEGA MASCOTA AEROPUERTO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALONDRA WARIO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 41,
+    "ID KEY": "CK 41",
+    "NOMBRE": "41 CK COLON",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO MOLINA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 41,
+    "ID KEY": "BA 41",
+    "NOMBRE": "0041 BA CONDESA MEXICALI",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 41,
+    "ID KEY": "LIV 41",
+    "NOMBRE": "41 LIV TAMPICO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JAIR LAZCANO",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 42,
+    "ID KEY": "LIV 42",
+    "NOMBRE": "42 LIV CHIHUAHUA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 43,
+    "ID KEY": "MIB 43",
+    "NOMBRE": "43 MI BODEGA TALPA DE ALLENDE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALONDRA WARIO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 43,
+    "ID KEY": "LIV 43",
+    "NOMBRE": "43 LIV TORREON",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO MOLINA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 44,
+    "ID KEY": "MIB 44",
+    "NOMBRE": "44 MI BODEGA VEGA DE ALATORRE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB IVONNE MUNGUIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 45,
+    "ID KEY": "LIV 45",
+    "NOMBRE": "45 LIV MONTERREY VALLE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB DIEGO AGUILAR",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 46,
+    "ID KEY": "LIV 46",
+    "NOMBRE": "46 LIV CULIACAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SUSANA RUIZ",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 50,
+    "ID KEY": "LIV 50",
+    "NOMBRE": "50 LIV HERMOSILLO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ANA VALLE",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 51,
+    "ID KEY": "LIV 51",
+    "NOMBRE": "51 LIV FF GUADALAJARA CENTRO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB WINSTON JUAREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 54,
+    "ID KEY": "LIV 54",
+    "NOMBRE": "54 LIV FF TEPIC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB YANELI JARAMILLO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 55,
+    "ID KEY": "LIV 55",
+    "NOMBRE": "55 LIV FF MAZATLAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN ALAPIZCO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 57,
+    "ID KEY": "LIV 57",
+    "NOMBRE": "57 LIV MORELIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 58,
+    "ID KEY": "BA 58",
+    "NOMBRE": "0058 BA SANTA MONICA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 58,
+    "ID KEY": "LIV 58",
+    "NOMBRE": "58 LIV FF AGUASCALIENTES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 60,
+    "ID KEY": "LIV 60",
+    "NOMBRE": "60 LIV FF CD OBREGON",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ELIZABETH GONZALEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 61,
+    "ID KEY": "LIV 61",
+    "NOMBRE": "61 LIV PASEO MORELIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 62,
+    "ID KEY": "LIV 62",
+    "NOMBRE": "62 LIV PUERTO VALLARTA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALONDRA WARIO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 64,
+    "ID KEY": "BA 64",
+    "NOMBRE": "0064 BA PEROTE ESTADIO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ELVIA LAGUNES",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 65,
+    "ID KEY": "LIV 65",
+    "NOMBRE": "65 LIV SALTILLO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB HILDA RODRIGUEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 70,
+    "ID KEY": "LIV 70",
+    "NOMBRE": "70 LIV TLAQUEPAQUE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS. VALIDAR EXHIBIDOR EN PISO",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB WINSTON JUAREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 72,
+    "ID KEY": "LIV 72",
+    "NOMBRE": "72 LIV PUEBLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 73,
+    "ID KEY": "LIV 73",
+    "NOMBRE": "73 LIV VERACRUZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "RECOMENDADO VER",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 74,
+    "ID KEY": "LIV 74",
+    "NOMBRE": "74 LIV METEPEC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 77,
+    "ID KEY": "LIV 77",
+    "NOMBRE": "77 LIV CUERNAVACA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 79,
+    "ID KEY": "LIV 79",
+    "NOMBRE": "79 LIV CHETUMAL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUSTO YAM",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 80,
+    "ID KEY": "LIV 80",
+    "NOMBRE": "80 LIV ECATEPEC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L ROBERTO SANTIBA EZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 82,
+    "ID KEY": "LIV 82",
+    "NOMBRE": "82 LIV XALAPA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ELVIA LAGUNES",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 83,
+    "ID KEY": "LIV 83",
+    "NOMBRE": "83 LIV LINDAVISTA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 84,
+    "ID KEY": "LIV 84",
+    "NOMBRE": "84 LIV COLIMA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 86,
+    "ID KEY": "LIV 86",
+    "NOMBRE": "86 LIV AGUASCALIENTES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 87,
+    "ID KEY": "CK 87",
+    "NOMBRE": "87 EXTRA GAS SAN COSME",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 88,
+    "ID KEY": "LIV 88",
+    "NOMBRE": "88 LIV TEPIC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB YANELI JARAMILLO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 89,
+    "ID KEY": "LIV 89",
+    "NOMBRE": "89 LIV DURANGO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB DALILA TREJO",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 103,
+    "ID KEY": "LIV 103",
+    "NOMBRE": "103 LIV INTERLOMAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SEBASTIAN GOMEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 104,
+    "ID KEY": "LIV 104",
+    "NOMBRE": "104 LIV ATIZAPAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L ALEJANDRO AVILA",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 106,
+    "ID KEY": "LIV 106",
+    "NOMBRE": "106 LIV PUEBLA SERDAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 113,
+    "ID KEY": "LIV 113",
+    "NOMBRE": "113 LIV MONTERREY CUMBRES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB DIEGO AGUILAR",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 117,
+    "ID KEY": "LIV 117",
+    "NOMBRE": "117 LIV MAZATLAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN ALAPIZCO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 121,
+    "ID KEY": "LIV 121",
+    "NOMBRE": "121 LIV ORIZABA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB IVONNE MUNGUIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 126,
+    "ID KEY": "LIV 126",
+    "NOMBRE": "126 LIV CD VICTORIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JAIR LAZCANO",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 127,
+    "ID KEY": "LIV 127",
+    "NOMBRE": "127 LIV ZACATECAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LLUVIA DIAZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 136,
+    "ID KEY": "LIV 136",
+    "NOMBRE": "136 LIV SAN LUIS POTOSI",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALEJANDRO GALVAN",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 140,
+    "ID KEY": "LIV 140",
+    "NOMBRE": "140 LIV TOLUCA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/VERIFICAR EXHIBIDOR EN PISO",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 144,
+    "ID KEY": "CK 144",
+    "NOMBRE": "144 CK GAS CONDESA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SANDRA FUENTES",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 147,
+    "ID KEY": "CK 147",
+    "NOMBRE": "147 CK GAS QUERETARO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SANDRA FUENTES",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 152,
+    "ID KEY": "CK 152",
+    "NOMBRE": "152 CK GAS REFORMA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 165,
+    "ID KEY": "LIV 165",
+    "NOMBRE": "165 LIV EL DORADO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "RECOMENDADO VER",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 168,
+    "ID KEY": "LIV 168",
+    "NOMBRE": "168 LIV SANTA ANITA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB WINSTON JUAREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 169,
+    "ID KEY": "LIV 169",
+    "NOMBRE": "169 LIV TUXPAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB CARLOS RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 170,
+    "ID KEY": "LIV 170",
+    "NOMBRE": "170 LIV CD JARDIN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 171,
+    "ID KEY": "CK 171",
+    "NOMBRE": "171 EXTRA GAS VERACRUZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SANDRA FUENTES",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 175,
+    "ID KEY": "LIV 175",
+    "NOMBRE": "175 LIV TAMPICO ALTAMA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JAIR LAZCANO",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 177,
+    "ID KEY": "LIV 177",
+    "NOMBRE": "177 LIV TLAXCALA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB MARIO CERVANTES",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 178,
+    "ID KEY": "LIV 178",
+    "NOMBRE": "178 LIV ZAMORA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 180,
+    "ID KEY": "LIV 180",
+    "NOMBRE": "180 LIV COACALCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L EDUARDO MARTINEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 186,
+    "ID KEY": "LIV 186",
+    "NOMBRE": "186 LIV TLALNEPANTLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 187,
+    "ID KEY": "LIV 187",
+    "NOMBRE": "187 LIVERPOOL EXPRESS SAN ANDRES TUXTLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JOSE LAVALLE",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 187,
+    "ID KEY": "CK 187",
+    "NOMBRE": "187 CK GAS PERINORTE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JOSE PEREZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 189,
+    "ID KEY": "CK 189",
+    "NOMBRE": "189 EXTRA GAS METEX",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 191,
+    "ID KEY": "LIV 191",
+    "NOMBRE": "191 LIV TUXTLA ORIENTE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 192,
+    "ID KEY": "LIV 192",
+    "NOMBRE": "192 LIV FF CUATLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 195,
+    "ID KEY": "LIV 195",
+    "NOMBRE": "195 LIV FF TECAMAC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L ROBERTO SANTIBA EZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 199,
+    "ID KEY": "LIV 199",
+    "NOMBRE": "199 LIV PARQUE TOREO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L MARIANA MARTINEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 205,
+    "ID KEY": "CK 205",
+    "NOMBRE": "205 CK EMBAJADA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 206,
+    "ID KEY": "CK 206",
+    "NOMBRE": "206 EXTRA HAVRE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 209,
+    "ID KEY": "CK 209",
+    "NOMBRE": "209 EXTRA BUENAVISTA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 248,
+    "ID KEY": "LIV 248",
+    "NOMBRE": "248 LIVERPOOL EXPRESS CD. VALLES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 256,
+    "ID KEY": "CK 256",
+    "NOMBRE": "256 EXTRA GAS INTERLOMAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SEBASTIAN GOMEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 300,
+    "ID KEY": "LIV 300",
+    "NOMBRE": "300 LIV TEHUACAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JESUS HERNANDEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 300,
+    "ID KEY": "CK 300",
+    "NOMBRE": "300 CK YUGOSLAVIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 303,
+    "ID KEY": "LIV 303",
+    "NOMBRE": "303 LIV CHILPANCINGO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB AARON TERAN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 304,
+    "ID KEY": "LIV 304",
+    "NOMBRE": "304 LIV CD DEL CARMEN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ZAIR CRISOSTOMO",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 305,
+    "ID KEY": "CK 305",
+    "NOMBRE": "305 EXTRA CONALEP",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 305,
+    "ID KEY": "LIV 305",
+    "NOMBRE": "305 LIV LOS MOCHIS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SANTIAGO GUTIERREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 306,
+    "ID KEY": "LIV 306",
+    "NOMBRE": "306 LIV ACAPULCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB AARON TERAN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 307,
+    "ID KEY": "LIV 307",
+    "NOMBRE": "307 LIV PLAYA DEL CARMEN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALEJANDRO EUAN",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 310,
+    "ID KEY": "LIV 310",
+    "NOMBRE": "310 LIV SALINA CRUZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 312,
+    "ID KEY": "LIV 312",
+    "NOMBRE": "312 LIV MEXICALI",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 314,
+    "ID KEY": "CK 314",
+    "NOMBRE": "314 CK GOMEZ MORIN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 318,
+    "ID KEY": "CK 318",
+    "NOMBRE": "318 EXTRA G EL CHARRO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SOLLLYNITZIN GALEANA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 333,
+    "ID KEY": "CK 333",
+    "NOMBRE": "333 CK SUPER HIT",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 342,
+    "ID KEY": "CK 342",
+    "NOMBRE": "342 EXTRA EL REFUGIO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SOLLLYNITZIN GALEANA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 365,
+    "ID KEY": "CK 365",
+    "NOMBRE": "365 CK AYUNTAMIENTO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 371,
+    "ID KEY": "LIV 371",
+    "NOMBRE": "371 LIV EXPRESS PALENQUE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB CLARIBETH SILVA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 378,
+    "ID KEY": "CK 378",
+    "NOMBRE": "378 CK GAS ATIZAPAN II",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L ALEJANDRO AVILA",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 386,
+    "ID KEY": "LIV 386",
+    "NOMBRE": "386 LIV PARQUE PUEBLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JESUS HERNANDEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 387,
+    "ID KEY": "LIV 387",
+    "NOMBRE": "387 LIV HERMOSILLO GALERIAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ANA VALLE",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 390,
+    "ID KEY": "CK 390",
+    "NOMBRE": "390 CK REAL DEL RIO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 397,
+    "ID KEY": "CK 397",
+    "NOMBRE": "397 EXTRA GOMEZ MORIN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 398,
+    "ID KEY": "LIV 398",
+    "NOMBRE": "398 LIVERPOOL EXPRESS L ZARO C RDENAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB AARON TERAN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 398,
+    "ID KEY": "CK 398",
+    "NOMBRE": "398 CK DIVISION",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 408,
+    "ID KEY": "CK 408",
+    "NOMBRE": "408 EXTRA SOSA VERA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 414,
+    "ID KEY": "CK 414",
+    "NOMBRE": "414 EXTRA CRISPIN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 441,
+    "ID KEY": "CK 441",
+    "NOMBRE": "441 CK TRIANGULO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 463,
+    "ID KEY": "LIV 463",
+    "NOMBRE": "463 LIV FF PLAZA BELLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 469,
+    "ID KEY": "LIV 469",
+    "NOMBRE": "469 LIV ATLIXCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 471,
+    "ID KEY": "LIV 471",
+    "NOMBRE": "471 LIV FRESNILLO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LAURA SALDA A",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 472,
+    "ID KEY": "LIV 472",
+    "NOMBRE": "472 LIV COMITAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 481,
+    "ID KEY": "CK 481",
+    "NOMBRE": "481 CK CENTRO CIVICO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 484,
+    "ID KEY": "CK 484",
+    "NOMBRE": "484 EXTRA GAS CHIMALHUACAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 490,
+    "ID KEY": "CK 490",
+    "NOMBRE": "490 EXTRA BELISARIO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 495,
+    "ID KEY": "CK 495",
+    "NOMBRE": "495 CK G PEMEX",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 497,
+    "ID KEY": "CK 497",
+    "NOMBRE": "497 EXTRA G CHICOASEN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 516,
+    "ID KEY": "CK 516",
+    "NOMBRE": "516 EXTRA GAS SANTA CECILIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 524,
+    "ID KEY": "CK 524",
+    "NOMBRE": "524 EXTRA BERLIN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 525,
+    "ID KEY": "MERCO 525",
+    "NOMBRE": "525 MERCO GARCIA",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 536,
+    "ID KEY": "CK 536",
+    "NOMBRE": "536 EXTRA G VILLAFONTANA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SOLLLYNITZIN GALEANA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 565,
+    "ID KEY": "MERCO 565",
+    "NOMBRE": "565 MERCO GIRASOLES",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB RAQUEL GUTIERREZ",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 572,
+    "ID KEY": "CK 572",
+    "NOMBRE": "572 EXTRA GAS EL CABALLO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 574,
+    "ID KEY": "MERCO 574",
+    "NOMBRE": "574 MERCO SOLIDARIDAD",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB DIEGO AGUILAR",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 582,
+    "ID KEY": "MERCO 582",
+    "NOMBRE": "582 MERCO BUENA VISTA",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 584,
+    "ID KEY": "MERCO 584",
+    "NOMBRE": "584 MERCO SANTA CATARINA",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ALFREDO GONZALEZ",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 588,
+    "ID KEY": "MERCO 588",
+    "NOMBRE": "588 MERCO SANTA ELENA",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 589,
+    "ID KEY": "MERCO 589",
+    "NOMBRE": "589 MERCO PILARES",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 592,
+    "ID KEY": "MERCO 592",
+    "NOMBRE": "592 MERCO PARAJE SAN JOSE",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 598,
+    "ID KEY": "MERCO 598",
+    "NOMBRE": "598 MERCO EL JARAL",
+    "ACTIVIDAD": "/Merco Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 615,
+    "ID KEY": "LIV 615",
+    "NOMBRE": "615 LIVERPOOL EXPRESS CD. GUZM N",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 683,
+    "ID KEY": "CK 683",
+    "NOMBRE": "683 CK G CARIBE",
+    "ACTIVIDAD": "/Extra Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ALEJANDRO EUAN",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 688,
+    "ID KEY": "LIV 688",
+    "NOMBRE": "688 LIV TIJUANA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SOLLLYNITZIN GALEANA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 690,
+    "ID KEY": "LIV 690",
+    "NOMBRE": "690 LIVERPOOL EXPRESS ZINACANTEPEC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 711,
+    "ID KEY": "CK 711",
+    "NOMBRE": "711 CK SAN DIEGO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 720,
+    "ID KEY": "CK 720",
+    "NOMBRE": "720 EXTRA G UNIVERSIDAD",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 766,
+    "ID KEY": "LIV 766",
+    "NOMBRE": "766 LIV TEPEYAC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 775,
+    "ID KEY": "CK 775",
+    "NOMBRE": "775 EXTRA HONDA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 799,
+    "ID KEY": "CK 799",
+    "NOMBRE": "799 CK VADO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO MOLINA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 807,
+    "ID KEY": "CK 807",
+    "NOMBRE": "807 EXTRA BARRIO CHINO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L SANDRA FUENTES",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 812,
+    "ID KEY": "LIV 812",
+    "NOMBRE": "0812 LIVERPOOL EXPRESS VALLE DE BRAVO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 815,
+    "ID KEY": "LIV 815",
+    "NOMBRE": "815 LIVERPOOL EXPRESS HUATULCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 817,
+    "ID KEY": "LIV 817",
+    "NOMBRE": "817 LIVERPOOL EXPRESS ATLACOMULCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 821,
+    "ID KEY": "LIV 821",
+    "NOMBRE": "821 LIVERPOOL EXPRESS ENSENADA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUADALUPE VALENCIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 846,
+    "ID KEY": "LIV 846",
+    "NOMBRE": "0846 LIVERPOOL EXPRESS VALLADOLID",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN CAAMAL",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 848,
+    "ID KEY": "LIV 848",
+    "NOMBRE": "0848 LIVERPOOL EXPRESS COATEPEC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ELVIA LAGUNES",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 849,
+    "ID KEY": "LIV 849",
+    "NOMBRE": "0849 LIVERPOOL EXPRESS VILLAFLORES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 852,
+    "ID KEY": "LIV 852",
+    "NOMBRE": "0852 LIVERPOOL EXPRESS SAN CRISTOBAL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 853,
+    "ID KEY": "LIV 853",
+    "NOMBRE": "0853 LIVERPOOL EXPRESS TULUM",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALEJANDRO EUAN",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 860,
+    "ID KEY": "MIB 860",
+    "NOMBRE": "860 MI BODEGA RODEO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JESUS DE LA PARRA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 868,
+    "ID KEY": "BA 868",
+    "NOMBRE": "868 BA CIUDAD CUAUHTEMOC",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 877,
+    "ID KEY": "LIV 877",
+    "NOMBRE": "0877 LIVERPOOL EXPRESS ZIHUATANEJO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB AARON TERAN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 886,
+    "ID KEY": "CK 886",
+    "NOMBRE": "886 CK SAN MARCOS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 888,
+    "ID KEY": "MIB 888",
+    "NOMBRE": "888 MI BODEGA CERRITOS SUR",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALEJANDRO GALVAN",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 890,
+    "ID KEY": "LIV 890",
+    "NOMBRE": "890 LIVERPOOL EXPRESS BAH A DE BANDERAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALONDRA WARIO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 891,
+    "ID KEY": "BA 891",
+    "NOMBRE": "891 BA XOXOCOTLAN",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 981,
+    "ID KEY": "MIB 981",
+    "NOMBRE": "981 MI BODEGA VILLA DE AHOME",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB SANTIAGO GUTIERREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1002,
+    "ID KEY": "BA 1002",
+    "NOMBRE": "1002 BA TEOTIHUACAN",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L DANIEL ROJAS",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1006,
+    "ID KEY": "BA 1006",
+    "NOMBRE": "1006 BA HOSPITAL GRAL",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB SANTIAGO GUTIERREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1008,
+    "ID KEY": "BA 1008",
+    "NOMBRE": "1008 BA HEROES TECAMAC",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L ROBERTO SANTIBA EZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1017,
+    "ID KEY": "LIV 1017",
+    "NOMBRE": "TOYS R US METEPEC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1018,
+    "ID KEY": "BA 1018",
+    "NOMBRE": "1018 BA TEMIXCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1019,
+    "ID KEY": "BA 1019",
+    "NOMBRE": "1019 BA SAN PEDRITO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB WINSTON JUAREZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1024,
+    "ID KEY": "BA 1024",
+    "NOMBRE": "1024 BA VILLA DE ALVAREZ",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1025,
+    "ID KEY": "BA 1025",
+    "NOMBRE": "1025 BA ATLIXCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1027,
+    "ID KEY": "LIV 1027",
+    "NOMBRE": "1027 LIVERPOOL EXPRESS CUAUHT MOC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1028,
+    "ID KEY": "BA 1028",
+    "NOMBRE": "1028 BA BOURLOUG",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ELIZABETH GONZALEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1030,
+    "ID KEY": "MIB 1030",
+    "NOMBRE": "1030 MI BODEGA AMECAMECA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1031,
+    "ID KEY": "LIV 1031",
+    "NOMBRE": "1031 LIVERPOOL EXPRESS JOJUTLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1033,
+    "ID KEY": "LIV 1033",
+    "NOMBRE": "1033 LIVERPOOL EXPRESS GUASAVE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB MARTIN ROBLES",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1034,
+    "ID KEY": "BA 1034",
+    "NOMBRE": "1034 BA HERMOSILLO NORTE",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ANA VALLE",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1035,
+    "ID KEY": "BA 1035",
+    "NOMBRE": "1035 BA FORJADORES",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1035,
+    "ID KEY": "LIV 1035",
+    "NOMBRE": "1035 LIVERPOOL EXPRESS DELICIAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1038,
+    "ID KEY": "BA 1038",
+    "NOMBRE": "1038 BA CHETUMAL",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUSTO YAM",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1038,
+    "ID KEY": "BA 1038",
+    "NOMBRE": "1038 BA CHETUMAL",
+    "ACTIVIDAD": "/BODEGA AURRERA Complemento1",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUSTO YAM",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1039,
+    "ID KEY": "WMEXPR 1039",
+    "NOMBRE": "1039 WM EXPRESS ZAVALETA",
+    "ACTIVIDAD": "/WMEXPR Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1046,
+    "ID KEY": "BA 1046",
+    "NOMBRE": "1046 BA CD VALLES",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1049,
+    "ID KEY": "BA 1049",
+    "NOMBRE": "1049 BA ESTADIO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB SUSANA RUIZ",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1051,
+    "ID KEY": "BA 1051",
+    "NOMBRE": "1051 BA LAS BRISAS",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB YANELI JARAMILLO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1055,
+    "ID KEY": "BA 1055",
+    "NOMBRE": "1055 BA ORIZABA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB IVONNE MUNGUIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1057,
+    "ID KEY": "BA 1057",
+    "NOMBRE": "1057 BA CHILPANCINGO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB AARON TERAN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1058,
+    "ID KEY": "BA 1058",
+    "NOMBRE": "1058 BA CIUDAD HIDALGO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1059,
+    "ID KEY": "LIV 1059",
+    "NOMBRE": "1059 LIVERPOOL EXPRESS NOGALES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB AMALIA ECHEVERRIA",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 1062,
+    "ID KEY": "LIV 1062",
+    "NOMBRE": "1062 LIVERPOOL EXPRESS  DOWNTOWN PUEBLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1063,
+    "ID KEY": "LIV 1063",
+    "NOMBRE": "1063 LIVERPOOL EXPRESS COZUMEL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALEJANDRO EUAN",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 1064,
+    "ID KEY": "LIV 1064",
+    "NOMBRE": "1064 LIVERPOOL EXPRESS TEXCOCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L JONATHAN RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1071,
+    "ID KEY": "MIB 1071",
+    "NOMBRE": "1071 MI BODEGA XILITLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1073,
+    "ID KEY": "LIV 1073",
+    "NOMBRE": "TOYS R US MUNDO E",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L DULCE RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1073,
+    "ID KEY": "BA 1073",
+    "NOMBRE": "1073 BA OCOTLAN",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1075,
+    "ID KEY": "WMEXPR 1075",
+    "NOMBRE": "1075 WM EXPRESS  TOLUCA PROVIDENC",
+    "ACTIVIDAD": "/WMEXPR Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1076,
+    "ID KEY": "BA 1076",
+    "NOMBRE": "1076 BA JIUTEPEC FUENTES",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1077,
+    "ID KEY": "MIB 1077",
+    "NOMBRE": "1077 MI BODEGA TECAMACHALCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JESUS HERNANDEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1082,
+    "ID KEY": "BA 1082",
+    "NOMBRE": "1082 BA TAPACHULA NORTE",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS AGUILAR",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1087,
+    "ID KEY": "BA 1087",
+    "NOMBRE": "1087 BA SAHUAYO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1088,
+    "ID KEY": "BA 1088",
+    "NOMBRE": "1088 BA COMITAN",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1089,
+    "ID KEY": "BA 1089",
+    "NOMBRE": "1089 BA SANTA ROSA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1101,
+    "ID KEY": "LIV 1101",
+    "NOMBRE": "LIVERPOOL EXPRESS ZITACUARO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1103,
+    "ID KEY": "BA 1103",
+    "NOMBRE": "1103 BA PERIFERICO SUR",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ANA VALLE",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1105,
+    "ID KEY": "LIV 1105",
+    "NOMBRE": "1105 LIVERPOOL EXPRESS TEPEACA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Liverpool Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JESUS HERNANDEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1110,
+    "ID KEY": "BA 1110",
+    "NOMBRE": "1110 BA PLAZA ECATEPEC",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L JOSE PEREZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1110,
+    "ID KEY": "LIV 1110",
+    "NOMBRE": "1110 LIV EXPRESS IGUALA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ROBERTO SALGADO",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 1112,
+    "ID KEY": "WMEXPR 1112",
+    "NOMBRE": "1112 WM EXPRESS LOMAS SLP",
+    "ACTIVIDAD": "/WMEXPR Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ALEJANDRO GALVAN",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1113,
+    "ID KEY": "MIB 1113",
+    "NOMBRE": "1113 MI BODEGA PUERTECITO DE LA VIRGEN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1118,
+    "ID KEY": "LIV 1118",
+    "NOMBRE": "1118 LIV EXPRESS NAVOJOA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ELIZABETH GONZALEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1120,
+    "ID KEY": "MIB 1120",
+    "NOMBRE": "1120 MI BODEGA DR ARROYO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1121,
+    "ID KEY": "MIB 1121",
+    "NOMBRE": "1121 MI BODEGA AXTLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1132,
+    "ID KEY": "BA 1132",
+    "NOMBRE": "1132 BA PATZCUARO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1133,
+    "ID KEY": "BA 1133",
+    "NOMBRE": "1133 BA SANTA ANITA OAXACA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1133,
+    "ID KEY": "LIV 1133",
+    "NOMBRE": "1133 LIVERPOOL EXPRESS PARRAL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RODOLFO LARA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1142,
+    "ID KEY": "BA 1142",
+    "NOMBRE": "1142 BA TOTOLTEPEC",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1143,
+    "ID KEY": "BA 1143",
+    "NOMBRE": "1143 BA TEZIUTLAN",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB IVONNE MUNGUIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1147,
+    "ID KEY": "WMEXPR 1147",
+    "NOMBRE": "1147 WM EXPRESS MORELIA",
+    "ACTIVIDAD": "/WMEXPR Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1150,
+    "ID KEY": "BA 1150",
+    "NOMBRE": "1150 BA HUEHUETOCA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L JOSE PEREZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1151,
+    "ID KEY": "BA 1151",
+    "NOMBRE": "1151 BA CHIAUTEMPAN",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB MARIO CERVANTES",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1156,
+    "ID KEY": "LIV 1156",
+    "NOMBRE": "1156 LIVERPOOL EXPRESS TEMIXCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1160,
+    "ID KEY": "WMEXPR 1160",
+    "NOMBRE": "1160 WM EXPRESS  TECNOLOGICO",
+    "ACTIVIDAD": "/WMEXPR Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1165,
+    "ID KEY": "MIB 1165",
+    "NOMBRE": "1165 MI BODEGA HUATUSCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB IVONNE MUNGUIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1167,
+    "ID KEY": "MIB 1167",
+    "NOMBRE": "1167 MI BODEGA TLAPACOYAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB IVONNE MUNGUIA",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1177,
+    "ID KEY": "BA 1177",
+    "NOMBRE": "1177 BA SANTIAGO TIANGUISTENCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1179,
+    "ID KEY": "BA 1179",
+    "NOMBRE": "1179 BA MORELIA NORTE",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1180,
+    "ID KEY": "BA 1180",
+    "NOMBRE": "1180 BA TUXTEPEC",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JOSE LAVALLE",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 1191,
+    "ID KEY": "CK 1191",
+    "NOMBRE": "1191 CK JOSEFA ORTIZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1192,
+    "ID KEY": "CK 1192",
+    "NOMBRE": "1192 CK G NUEVA ESPA A",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1193,
+    "ID KEY": "MIB 1193",
+    "NOMBRE": "1193 MI BODEGA ISLA VERACRUZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JOSE LAVALLE",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 1194,
+    "ID KEY": "MIB 1194",
+    "NOMBRE": "1194 MI BODEGA IXTLAHUACA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1194,
+    "ID KEY": "MIB 1194",
+    "NOMBRE": "1194 MI BODEGA IXTLAHUACA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Complemento1",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1196,
+    "ID KEY": "CK 1196",
+    "NOMBRE": "1196 CK SIGLO XX1  1",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1199,
+    "ID KEY": "BA 1199",
+    "NOMBRE": "1199 BA TEPOJACO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L JOSE PEREZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1201,
+    "ID KEY": "BA 1201",
+    "NOMBRE": "1201 BA SAN AGUSTIN ECATEPEC",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L ROBERTO SANTIBA EZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1202,
+    "ID KEY": "KI 1202",
+    "NOMBRE": "1202 KIOSKO GASOLINERA ARMERIA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1203,
+    "ID KEY": "KI 1203",
+    "NOMBRE": "1203 KIOSKO POLIDEPORTIVO TECOMAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1204,
+    "ID KEY": "KI 1204",
+    "NOMBRE": "1204 KIOSKO IMSS TECOMAN",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1205,
+    "ID KEY": "KI 1205",
+    "NOMBRE": "1205 KIOSKO PEDRO TORRES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1206,
+    "ID KEY": "KI 1206",
+    "NOMBRE": "1206 KIOSKO COFRADIA DE MORELOS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1207,
+    "ID KEY": "KI 1207",
+    "NOMBRE": "1207 KIOSKO TRIANGULITO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1208,
+    "ID KEY": "KI 1208",
+    "NOMBRE": "1208 KIOSKO JUAN OSEGUERA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1209,
+    "ID KEY": "KI 1209",
+    "NOMBRE": "1209 KIOSKO GAS VALLE NUEVO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1210,
+    "ID KEY": "KI 1210",
+    "NOMBRE": "1210 KIOSKO EMILIANO ZAPATA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1211,
+    "ID KEY": "KI 1211",
+    "NOMBRE": "1211 KIOSKO CRUCERO TECOMAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1212,
+    "ID KEY": "KI 1212",
+    "NOMBRE": "1212 KIOSKO INDECO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1215,
+    "ID KEY": "KI 1215",
+    "NOMBRE": "1215 KIOSKO REVOLUCION",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1216,
+    "ID KEY": "KI 1216",
+    "NOMBRE": "1216 KIOSKO CERRO DE ORTEGA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1217,
+    "ID KEY": "KI 1217",
+    "NOMBRE": "1217 KIOSKO PIPILA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1218,
+    "ID KEY": "KI 1218",
+    "NOMBRE": "1218 KIOSKO PALMA REAL",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1219,
+    "ID KEY": "KI 1219",
+    "NOMBRE": "1219 KIOSKO OAXACA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1220,
+    "ID KEY": "KI 1220",
+    "NOMBRE": "1220 KIOSKO VALLE QUERIDO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1221,
+    "ID KEY": "KI 1221",
+    "NOMBRE": "1221 KIOSKO VILLAS DEL REY",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1222,
+    "ID KEY": "KI 1222",
+    "NOMBRE": "1222 KIOSKO GAS CALERAS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1223,
+    "ID KEY": "KI 1223",
+    "NOMBRE": "1223 KIOSKO PERIQUILLO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1224,
+    "ID KEY": "KI 1224",
+    "NOMBRE": "1224 KIOSKO LA ESTACION",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1225,
+    "ID KEY": "KI 1225",
+    "NOMBRE": "1225 KIOSKO RIO BALSAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1226,
+    "ID KEY": "KI 1226",
+    "NOMBRE": "1226 KIOSKO GAS LIMONERO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1227,
+    "ID KEY": "KI 1227",
+    "NOMBRE": "1227 KIOSKO REAL DEL BOSQUE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1230,
+    "ID KEY": "MIB 1230",
+    "NOMBRE": "1230 MI BODEGA TUXTLA CHICO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS AGUILAR",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1230,
+    "ID KEY": "KI 1230",
+    "NOMBRE": "1230 KIOSKO GAS TECOLAPA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1231,
+    "ID KEY": "KI 1231",
+    "NOMBRE": "1231 KIOSKO HOSPITAL GENERAL TECOMAN",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1231,
+    "ID KEY": "MIB 1231",
+    "NOMBRE": "1231 MI BODEGA PUREPERO DE ECHAIZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1232,
+    "ID KEY": "KI 1232",
+    "NOMBRE": "1232 KIOSKO CARLOS DE LA MADRID",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1233,
+    "ID KEY": "BA 1233",
+    "NOMBRE": "1233 BA TECALCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L ROBERTO SANTIBA EZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1233,
+    "ID KEY": "KI 1233",
+    "NOMBRE": "1233 KIOSKO 5 DE MAYO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1235,
+    "ID KEY": "KI 1235",
+    "NOMBRE": "1235 KIOSKO 20 DE NOVIEMBRE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1236,
+    "ID KEY": "BA 1236",
+    "NOMBRE": "1236 BA ATLACOMULCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1237,
+    "ID KEY": "MIB 1237",
+    "NOMBRE": "1237 MI BODEGA BOCHIL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1237,
+    "ID KEY": "MIB 1237",
+    "NOMBRE": "1237 MI BODEGA BOCHIL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Complemento1",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1237,
+    "ID KEY": "KI 1237",
+    "NOMBRE": "1237 KIOSKO DE LOS MAESTROS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1238,
+    "ID KEY": "KI 1238",
+    "NOMBRE": "1238 KIOSKO PINO SUAREZ",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1239,
+    "ID KEY": "MIB 1239",
+    "NOMBRE": "1239 MI BODEGA PICHUCALCO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB CLARIBETH SILVA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1239,
+    "ID KEY": "KI 1239",
+    "NOMBRE": "1239 KIOSKO BOSQUES DE SAN ANTONIO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1240,
+    "ID KEY": "MIB 1240",
+    "NOMBRE": "1240 MI BODEGA GUTIERREZ ZAMORA CENTRO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB CARLOS RODRIGUEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1240,
+    "ID KEY": "KI 1240",
+    "NOMBRE": "1240 KIOSKO TECOMAN CHAMIZAL",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1241,
+    "ID KEY": "MIB 1241",
+    "NOMBRE": "1241 MI BODEGA TRES VALLES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JOSE LAVALLE",
+    "SUP": "EN"
+  },
+  {
+    "DETER": 1242,
+    "ID KEY": "MIB 1242",
+    "NOMBRE": "1242 MI BODEGA EBANO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1243,
+    "ID KEY": "KI 1243",
+    "NOMBRE": "1243 KIOSKO PANTEON ARMERIA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1243,
+    "ID KEY": "MIB 1243",
+    "NOMBRE": "1243 MI BODEGA PERIBAN DE RAMOS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1243,
+    "ID KEY": "MIB 1243",
+    "NOMBRE": "1243 MI BODEGA PERIBAN DE RAMOS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Complemento1",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1244,
+    "ID KEY": "KI 1244",
+    "NOMBRE": "1244 KIOSKO SIMON BOLIVAR",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1245,
+    "ID KEY": "MIB 1245",
+    "NOMBRE": "1245 MI BODEGA NOCHISTLAN DE MEJIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1245,
+    "ID KEY": "KI 1245",
+    "NOMBRE": "1245 KIOSKO IXTLAHUAC N",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1246,
+    "ID KEY": "KI 1246",
+    "NOMBRE": "1246 KIOSKO DE LA JUVENTUD",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1246,
+    "ID KEY": "MIB 1246",
+    "NOMBRE": "1246 MI BODEGA SALINAS VICTORIA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB YONATAN HINOJOSA",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1247,
+    "ID KEY": "WMEXPR 1247",
+    "NOMBRE": "1247 WM EXPRESS MTY SAN JERONIMO",
+    "ACTIVIDAD": "/WMEXPR Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB DIEGO AGUILAR",
+    "SUP": "AM"
+  },
+  {
+    "DETER": 1248,
+    "ID KEY": "WMEXPR 1248",
+    "NOMBRE": "1248 WM EXPRESS  ZAPATA",
+    "ACTIVIDAD": "Visita Sin Paquete",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1248,
+    "ID KEY": "KI 1248",
+    "NOMBRE": "1248 KIOSKO UNI N",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1249,
+    "ID KEY": "KI 1249",
+    "NOMBRE": "1249 KIOSKO RIO GRIJALVA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1250,
+    "ID KEY": "CK 1250",
+    "NOMBRE": "1250 CK G ESTACION MONTORO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1250,
+    "ID KEY": "KI 1250",
+    "NOMBRE": "1250 KIOSKO COFRAD A DE MORELOS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1251,
+    "ID KEY": "KI 1251",
+    "NOMBRE": "1251 KIOSKO JARDINES",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1252,
+    "ID KEY": "KI 1252",
+    "NOMBRE": "1252 KIOSKO MADRID",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1254,
+    "ID KEY": "MIB 1254",
+    "NOMBRE": "1254 MI BODEGA ACALA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1254,
+    "ID KEY": "KI 1254",
+    "NOMBRE": "1254 KIOSKO REFORMA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1255,
+    "ID KEY": "KI 1255",
+    "NOMBRE": "1255 KIOSKO MAYOR PATRICIO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1257,
+    "ID KEY": "KI 1257",
+    "NOMBRE": "1257 KIOSKO TLAXCALA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1276,
+    "ID KEY": "MIB 1276",
+    "NOMBRE": "1276 MI BODEGA ACAJETE CENTRO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1301,
+    "ID KEY": "KI 1301",
+    "NOMBRE": "1301 KIOSKO FEDERICO DEL TORO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1302,
+    "ID KEY": "KI 1302",
+    "NOMBRE": "1302 KIOSKO CRISTOBAL COLON",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1303,
+    "ID KEY": "KI 1303",
+    "NOMBRE": "1303 KIOSKO OBISPO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1304,
+    "ID KEY": "KI 1304",
+    "NOMBRE": "1304 KIOSKO COLEGIO MEXICO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1305,
+    "ID KEY": "KI 1305",
+    "NOMBRE": "1305 KIOSKO MADERO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1307,
+    "ID KEY": "KI 1307",
+    "NOMBRE": "1307 KIOSKO JAZMIN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1308,
+    "ID KEY": "KI 1308",
+    "NOMBRE": "1308 KIOSKO GAS SAN ANDRES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1309,
+    "ID KEY": "KI 1309",
+    "NOMBRE": "1309 KIOSKO TECNOLOGICO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1310,
+    "ID KEY": "KI 1310",
+    "NOMBRE": "1310 KIOSKO TIANGUIS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1311,
+    "ID KEY": "KI 1311",
+    "NOMBRE": "1311 KIOSKO SERAFIN VAZQUEZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1312,
+    "ID KEY": "KI 1312",
+    "NOMBRE": "1312 KIOSKO GAS 4 CAMINOS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1313,
+    "ID KEY": "CK 1313",
+    "NOMBRE": "1313 CK G SIGLO XXI 2",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Extra Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALAN I IGUEZ",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1313,
+    "ID KEY": "KI 1313",
+    "NOMBRE": "1313 KIOSKO GAS AEROPUERTO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1314,
+    "ID KEY": "KI 1314",
+    "NOMBRE": "1314 KIOSKO GAS RAMON CORONA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1315,
+    "ID KEY": "KI 1315",
+    "NOMBRE": "1315 KIOSKO TUXPAN OBREGON",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1316,
+    "ID KEY": "KI 1316",
+    "NOMBRE": "1316 KIOSKO GAS CARDENAS",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1317,
+    "ID KEY": "KI 1317",
+    "NOMBRE": "1317 KIOSKO SAYULA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1319,
+    "ID KEY": "KI 1319",
+    "NOMBRE": "1319 KIOSKO SANTA INES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1320,
+    "ID KEY": "KI 1320",
+    "NOMBRE": "1320 KIOSKO ABASOLO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1321,
+    "ID KEY": "KI 1321",
+    "NOMBRE": "1321 KIOSKO ZAPOTILTIC",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1322,
+    "ID KEY": "KI 1322",
+    "NOMBRE": "1322 KIOSKO PANTEON HIDALGO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1323,
+    "ID KEY": "KI 1323",
+    "NOMBRE": "1323 KIOSKO GAS CARCO GUZMAN",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1324,
+    "ID KEY": "KI 1324",
+    "NOMBRE": "1324 KIOSKO GAS CARCO ZAPOTILTIC",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Visita en Plan de trabajo",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1325,
+    "ID KEY": "KI 1325",
+    "NOMBRE": "1325 KIOSKO PAEZ STILLE",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1326,
+    "ID KEY": "KI 1326",
+    "NOMBRE": "1326 KIOSKO LA PRIMAVERA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1327,
+    "ID KEY": "KI 1327",
+    "NOMBRE": "1327 KIOSKO CAMICHINES",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1328,
+    "ID KEY": "KI 1328",
+    "NOMBRE": "1328 KIOSKO SAN ISIDRO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1328,
+    "ID KEY": "MIB 1328",
+    "NOMBRE": "1328 MI BODEGA EL HIGO SUR",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB RUBEN MELENDEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1329,
+    "ID KEY": "KI 1329",
+    "NOMBRE": "1329 KIOSKO ZAPOTILTIC BUSTAMANTE",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1330,
+    "ID KEY": "KI 1330",
+    "NOMBRE": "1330 KIOSKO SAN ANDR S CENTRO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1331,
+    "ID KEY": "KI 1331",
+    "NOMBRE": "1331 KIOSKO G MEZ FAR AS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1332,
+    "ID KEY": "KI 1332",
+    "NOMBRE": "1332 KIOSKO DARIO VARGAS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1333,
+    "ID KEY": "KI 1333",
+    "NOMBRE": "1333 KIOSKO TUXPAN",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1334,
+    "ID KEY": "KI 1334",
+    "NOMBRE": "1334 KIOSKO COCA COLA TAMAZULA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1335,
+    "ID KEY": "KI 1335",
+    "NOMBRE": "1335 KIOSKO CUAUHT MOC TAMAZULA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1336,
+    "ID KEY": "KI 1336",
+    "NOMBRE": "1336 KIOSKO LOMA BONITA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1337,
+    "ID KEY": "KI 1337",
+    "NOMBRE": "1337 KIOSKO DONATO GUERRA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1338,
+    "ID KEY": "KI 1338",
+    "NOMBRE": "1338 KIOSKO GAS TONAYA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1340,
+    "ID KEY": "KI 1340",
+    "NOMBRE": "1340 KIOSKO PEDRO MORENO Y OCAMPO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1341,
+    "ID KEY": "BA 1341",
+    "NOMBRE": "1341 BA ESPERANZA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB ELIZABETH GONZALEZ",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1341,
+    "ID KEY": "KI 1341",
+    "NOMBRE": "1341 KIOSKO ZAPOTILTIC HIDALGO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1342,
+    "ID KEY": "KI 1342",
+    "NOMBRE": "1342 KIOSKO CLEMENTE ANAYA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1342,
+    "ID KEY": "BA 1342",
+    "NOMBRE": "1342 BA PLAZA LAS FLORES",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1344,
+    "ID KEY": "KI 1344",
+    "NOMBRE": "1344 KIOSKO CAPAYA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1345,
+    "ID KEY": "BA 1345",
+    "NOMBRE": "1345 BA LAS BRISAS",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB GUSTAVO RAYON",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1345,
+    "ID KEY": "KI 1345",
+    "NOMBRE": "1345 KIOSKO GLORIETA DEL GRULLO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1348,
+    "ID KEY": "KI 1348",
+    "NOMBRE": "1348 KIOSKO FRACCIONAMIENTO LAS LOMAS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1349,
+    "ID KEY": "MIB 1349",
+    "NOMBRE": "1349 MI BODEGA CUENCAME",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB GUSTAVO MOLINA",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1349,
+    "ID KEY": "KI 1349",
+    "NOMBRE": "1349 KIOSKO HOSPITAL AUTL N",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1350,
+    "ID KEY": "KI 1350",
+    "NOMBRE": "1350 KIOSKO OCTAVIO PAZ",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1351,
+    "ID KEY": "KI 1351",
+    "NOMBRE": "1351 KIOSKO GAS EL RELICARIO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1352,
+    "ID KEY": "KI 1352",
+    "NOMBRE": "1352 KIOSKO LIBERTAD",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1353,
+    "ID KEY": "BA 1353",
+    "NOMBRE": "1353 BA AVENIDA SANTA ISABEL",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1353,
+    "ID KEY": "KI 1353",
+    "NOMBRE": "1353 KIOSKO FRESNO LOPEZ VELARDE",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1354,
+    "ID KEY": "KI 1354",
+    "NOMBRE": "1354 KIOSKO AMADO NERVO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1355,
+    "ID KEY": "KI 1355",
+    "NOMBRE": "1355 KIOSKO MARIANO BARCENAS",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1356,
+    "ID KEY": "KI 1356",
+    "NOMBRE": "1356 KIOSKO GAS SAN PEDRO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1358,
+    "ID KEY": "KI 1358",
+    "NOMBRE": "1358 KIOSKO GAS EL MENTIDERO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1359,
+    "ID KEY": "KI 1359",
+    "NOMBRE": "1359 KIOSKO ALAMEDA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1360,
+    "ID KEY": "KI 1360",
+    "NOMBRE": "1360 KIOSKO CIRCUNVALACION PONIENTE",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1361,
+    "ID KEY": "KI 1361",
+    "NOMBRE": "1361 KIOSKO AQUILES SERDAN",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1362,
+    "ID KEY": "KI 1362",
+    "NOMBRE": "1362 KIOSKO TEC GUZM N",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1363,
+    "ID KEY": "KI 1363",
+    "NOMBRE": "1363 KIOSKO CAMINO A SAN GABRIEL",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1365,
+    "ID KEY": "KI 1365",
+    "NOMBRE": "1365 KIOSKO GAS HUESCALAPA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1366,
+    "ID KEY": "KI 1366",
+    "NOMBRE": "1366 KIOSKO AVILA CAMACHO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1367,
+    "ID KEY": "KI 1367",
+    "NOMBRE": "1367 KIOSKO SAN SEBASTIAN SAYULA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1371,
+    "ID KEY": "KI 1371",
+    "NOMBRE": "1371 KIOSKO SAN JOSE CENTRO",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1372,
+    "ID KEY": "KI 1372",
+    "NOMBRE": "1372 KIOSKO CENTRAL SAYULA",
+    "ACTIVIDAD": "/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1377,
+    "ID KEY": "MIB 1377",
+    "NOMBRE": "1377 MI BODEGA PINOTEPA PLAZA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB JAIME ORTIZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1377,
+    "ID KEY": "KI 1377",
+    "NOMBRE": "1377 KIOSKO VALLE JUAREZ",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Kiosko Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NORMA RIVERA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1387,
+    "ID KEY": "BA 1387",
+    "NOMBRE": "1387 BA 5TA PONIENTE",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB PABLO MARROQUIN",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1399,
+    "ID KEY": "BA 1399",
+    "NOMBRE": "1399 BA LOMA FLORIDA",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB MARIO CERVANTES",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1400,
+    "ID KEY": "BA 1400",
+    "NOMBRE": "1400 BA JOYAS DE COACALCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L EDUARDO MARTINEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1401,
+    "ID KEY": "BA 1401",
+    "NOMBRE": "1401 BA LOS SAUCES",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1409,
+    "ID KEY": "MIB 1409",
+    "NOMBRE": "1409 MI BODEGA IXTAPA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB ALONDRA WARIO",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1410,
+    "ID KEY": "MIB 1410",
+    "NOMBRE": "1410 MI BODEGA PAPALOTLA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB MARIO CERVANTES",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1411,
+    "ID KEY": "MIB 1411",
+    "NOMBRE": "1411 MI BODEGA TUXPAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS SOSA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1417,
+    "ID KEY": "BA 1417",
+    "NOMBRE": "1417 BA MEXICALI SUR",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1418,
+    "ID KEY": "MIB 1418",
+    "NOMBRE": "1418 MI BODEGA CALPULALPAN",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB MARIO CERVANTES",
+    "SUP": "DG"
+  },
+  {
+    "DETER": 1419,
+    "ID KEY": "BA 1419",
+    "NOMBRE": "1419 BA NUEVO MEXICALI",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1420,
+    "ID KEY": "BA 1420",
+    "NOMBRE": "1420 BA 14 ORIENTE",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB LUIS PALMA",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1421,
+    "ID KEY": "BA 1421",
+    "NOMBRE": "1421 BA MEXICALI SURESTE",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB JUAN HERNANDEZ",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1424,
+    "ID KEY": "MIB 1424",
+    "NOMBRE": "1424 MI BODEGA SIMOJOVEL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1424,
+    "ID KEY": "MIB 1424",
+    "NOMBRE": "1424 MI BODEGA SIMOJOVEL",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Complemento1",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1426,
+    "ID KEY": "BA 1426",
+    "NOMBRE": "1426 BA COYOL",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB RAMON SANCHEZ",
+    "SUP": "CZ"
+  },
+  {
+    "DETER": 1428,
+    "ID KEY": "BA 1428",
+    "NOMBRE": "1428 BA SAN MATEO ATENCO",
+    "ACTIVIDAD": "/BODEGA AURRERA Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB L BENNY OLVERA",
+    "SUP": "GT"
+  },
+  {
+    "DETER": 1431,
+    "ID KEY": "MIB 1431",
+    "NOMBRE": "1431 MI BODEGA COTIJA",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB NELLY HERREJON",
+    "SUP": "LO"
+  },
+  {
+    "DETER": 1432,
+    "ID KEY": "MIB 1432",
+    "NOMBRE": "1432 MI BODEGA OCOSINGO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Resurtido",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  {
+    "DETER": 1432,
+    "ID KEY": "MIB 1432",
+    "NOMBRE": "1432 MI BODEGA OCOSINGO",
+    "ACTIVIDAD": "INSTALA ETIQUETAS/Mi Bodega Aurrera Complemento1",
+    "REFERENCIA CLAVE": "LLEVA ETIQUETA",
+    "PROMOTOR": "HAB LUIS HERNANDEZ",
+    "SUP": "JR"
+  },
+  
+  {
+    "DETER": 302014460,
+    "ID KEY": "SIX 302014460",
+    "NOMBRE": "302014460 NL SIX 24 LINA",
+    "ACTIVIDAD": "/SIX Resurtido",
+    "REFERENCIA CLAVE": "No lleva etiqueta",
+    "PROMOTOR": "HAB FERNANDO QUEZADA",
+    "SUP": "AM"
+  },
+ 
+];
+
+    function buscar() {
+      const texto = document.getElementById('searchBox').value.toLowerCase();
+      const resultados = datos.filter(reg =>
+        Object.values(reg).some(val =>
+          String(val).toLowerCase().includes(texto)
+        )
+      );
+
+      const tabla = document.getElementById('resultTable');
+      tabla.innerHTML = '';
+
+      if (resultados.length > 0) {
+        const encabezados = Object.keys(resultados[0]);
+        tabla.innerHTML += `<tr>${encabezados.map(h => `<th>${h}</th>`).join('')}</tr>`;
+        resultados.forEach(reg => {
+          tabla.innerHTML += `<tr>${encabezados.map(h => `<td>${reg[h]}</td>`).join('')}</tr>`;
+        });
+      } else {
+        tabla.innerHTML = '<tr><td colspan="8">Sin resultados</td></tr>';
+      }
+    }
+  </script>
+</body>
+</html>
